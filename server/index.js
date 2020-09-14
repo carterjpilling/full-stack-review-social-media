@@ -24,16 +24,16 @@ app.use(session({
 
 //#auth endpoints
 
-app.post('/auth/register', verifyUser, authCtrl.register)
-app.post('/auth/login', verifyUser, authCtrl.login)
-app.delete('/auth/logout', verifyUser, authCtrl.logout)
-app.get('/auth/user', verifyUser, authCtrl.getUser)
+app.post('/auth/register', authCtrl.register)
+app.post('/auth/login', authCtrl.login)
+app.delete('/auth/logout', authCtrl.logout)
+app.get('/auth/user', authCtrl.getUser)
 
 //#posts endpoints
-app.get('/api/posts', postCtrl.getPosts)
-app.post('/api/posts', postCtrl.addPost)
-app.put('/api/posts/:post_id', postCtrl.editPost)
-app.delete('/api/posts/:post_id', postCtrl.deletePost)
+app.get('/api/posts', verifyUser, postCtrl.getPosts)
+app.post('/api/posts', verifyUser, postCtrl.addPost)
+app.put('/api/posts/:post_id', verifyUser, postCtrl.editPost)
+app.delete('/api/posts/:post_id', verifyUser, postCtrl.deletePost)
 
 massive({
   connectionString: CONNECTION_STRING,
