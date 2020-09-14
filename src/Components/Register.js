@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Axios from 'axios'
+import { Link } from 'react-router-dom'
 
 class Register extends Component {
   constructor() {
@@ -9,9 +11,20 @@ class Register extends Component {
     }
   }
 
-  handleInput = (event) => {}
-
-  handleRegister = () => {}
+  handleInput = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  handleRegister = () => {
+    const { email, password } = this.state
+    Axios.post('/auth/register', { email, password }).then(res => {
+      this.props.history.push('/dashboard')
+    })
+      .catch((err) => {
+        alert(err.message)
+      })
+  }
 
   render() {
     return (
@@ -23,8 +36,8 @@ class Register extends Component {
                 maxLength="100"
                 placeholder="Enter Email"
                 name="email"
-                onChange={() => {
-                  //something goes here
+                onChange={(e) => {
+                  this.handleInput(e)
                 }}
               />
               <input
@@ -32,14 +45,14 @@ class Register extends Component {
                 maxLength="20"
                 placeholder="Enter Password"
                 name="password"
-                onChange={() => {
-                  //something goes here
+                onChange={(e) => {
+                  this.handleInput(e)
                 }}
               />
             </div>
             <button
               onClick={() => {
-                //something goes here
+                this.handleRegister()
               }}
               className="input-container-button"
             >
@@ -48,7 +61,7 @@ class Register extends Component {
           </div>
           <div className="flex-horizontal link">
             <span>Already have an account? login here: </span>
-            {/* TODO Link to landing. className='input-container-button' */}
+            <Link className='input-container-button' to='/'>Log In</Link>
           </div>
         </div>
       </div>
